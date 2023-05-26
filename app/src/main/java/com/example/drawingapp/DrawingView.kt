@@ -28,6 +28,14 @@ class DrawingView(context:Context,attribute:AttributeSet): View(context,attribut
 
     private fun setUpDrawing(){
 
+        mDrawPaint = Paint()
+        mDrawPath = CustomPath(color,mBrushSize)
+        mDrawPaint!!.color = color
+        mDrawPaint!!.style = Paint.Style.STROKE
+        mDrawPaint!!.strokeJoin = Paint.Join.ROUND
+        mDrawPaint!!.strokeCap = Paint.Cap.ROUND
+        mDrawPaint = Paint(Paint.DITHER_FLAG)
+        mBrushSize = 20.toFloat()
 
 
     }
