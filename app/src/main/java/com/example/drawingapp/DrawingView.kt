@@ -34,7 +34,7 @@ class DrawingView(context:Context,attribute:AttributeSet): View(context,attribut
         mDrawPaint!!.color = color
         mDrawPaint!!.style = Paint.Style.STROKE
         mDrawPaint!!.strokeJoin = Paint.Join.ROUND
-        mDrawPaint!!.strokeCap = Paint.Cap.ROUND
+        mDrawPaint!!.strokeCap = Paint.Cap.SQUARE
         mDrawPaint = Paint(Paint.DITHER_FLAG)
         mBrushSize = 20.toFloat()
 
@@ -50,7 +50,7 @@ class DrawingView(context:Context,attribute:AttributeSet): View(context,attribut
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         canvas!!.drawBitmap(mCanvasBitmap!!,0f,0f,mCanvasPaint)
-        if(mDrawPath!!.isEmpty){
+        if(!mDrawPath!!.isEmpty){
 
             mDrawPaint!!.strokeWidth = mDrawPath!!.brushThickness
             mDrawPaint!!.color = mDrawPath!!.color
@@ -96,7 +96,7 @@ class DrawingView(context:Context,attribute:AttributeSet): View(context,attribut
                 mDrawPath = CustomPath(color,mBrushSize)
 
             }
-            else -> false
+            else -> return false
 
         }
 
