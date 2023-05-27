@@ -20,6 +20,7 @@ class DrawingView(context:Context,attribute:AttributeSet): View(context,attribut
     private var mBrushSize : Float = 0.toFloat()
     private var color = Color.BLACK
     private var canvas:Canvas? = null
+    private val mPaths = ArrayList<CustomPath>()
 
     init{
 
@@ -37,6 +38,7 @@ class DrawingView(context:Context,attribute:AttributeSet): View(context,attribut
         mDrawPaint!!.strokeCap = Paint.Cap.ROUND
         mDrawPaint = Paint(Paint.DITHER_FLAG)
         mBrushSize = 10.toFloat()
+        mDrawPaint!!.isAntiAlias = true
 
 
     }
@@ -50,6 +52,16 @@ class DrawingView(context:Context,attribute:AttributeSet): View(context,attribut
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         canvas.drawBitmap(mCanvasBitmap!!,0f,0f,mCanvasPaint)
+
+        for(path in mPaths){
+
+            mDrawPaint!!.strokeWidth = path.brushThickness
+            mDrawPaint!!.color = path.color
+
+            canvas.drawPath(path,mDrawPaint!!)
+
+        }
+
         if(!mDrawPath!!.isEmpty){
 
             mDrawPaint!!.strokeWidth = mDrawPath!!.brushThickness
@@ -71,7 +83,7 @@ class DrawingView(context:Context,attribute:AttributeSet): View(context,attribut
 
                 mDrawPath!!.color = color
                 mDrawPath!!.brushThickness = mBrushSize
-                mDrawPath!!.reset()
+                //mDrawPath!!.reset()
 
                 if (touchX != null) {
                     if (touchY != null) {
@@ -92,7 +104,7 @@ class DrawingView(context:Context,attribute:AttributeSet): View(context,attribut
             }
 
             MotionEvent.ACTION_UP -> {
-
+                mPaths.add(mDrawPath!!)
                 mDrawPath = CustomPath(color,mBrushSize)
 
             }
@@ -100,7 +112,7 @@ class DrawingView(context:Context,attribute:AttributeSet): View(context,attribut
 
         }
 
-        invalidate()
+        postInvalidate()
 
         return true
     }
